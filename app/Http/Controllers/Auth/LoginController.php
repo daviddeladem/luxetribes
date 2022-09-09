@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -41,27 +42,35 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+
+    public function store(LoginRequest $request)
     {
-        $this->validate($request, [
-      'email'   => 'required|email',
-      'password'  => 'required|alphaNum|min:8'
-     ]);
 
-     $user_data = array(
-      'email'  => $request->get('email'),
-      'password' => $request->get('password')
-     );
+        $credentials = $request->getCredentials();
 
-     if(Auth::attempt($user_data))
-     {
-        Alert::success('Your have successfully logged in','');
-      return back();
-     }
-     else
-     {
-        Alert::error('Your credentials donn\'t match our records','');
-      return back();
-     }
+        if(!Auth::validate($credentials)):
+            Alert::error('Wrong credentials','');
+            return redirect()->to('login')
+                ->withErrors(trans('auth.failed'));
+        endif;
+
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
+        Auth::login($user);
+
+        return $this->authenticated($request, $user);
+    }
+
+    /**
+     * Handle response after user authenticated
+     *
+     * @param Request $request
+     * @param Auth $user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->route('user');
     }
 }

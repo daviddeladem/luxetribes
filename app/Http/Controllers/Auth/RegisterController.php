@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -101,9 +102,9 @@ class RegisterController extends Controller
             'email_verified_at' => Carbon::now()
 
         ]);
-
+       auth()->login($user);
        Alert::success('Registeration Successful');
-        return redirect()->route('login');
+        return redirect()->route('user');
         }
     }
 

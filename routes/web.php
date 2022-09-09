@@ -19,12 +19,12 @@ use App\Http\Controllers\Auth\RegisterController;
 Route::get('/', function () {
     return view('components.register');
 });
-Route::get('/logins', function () {
-    return view('components.login');
-});
+Route::get('/user', function () {
+    return view('components.user');
+})->name('user');
 
 Route::post('register-user',[RegisterController::class, 'store']);
-Route::post('login-user',[LoginController::class, 'login']);
+Route::post('login-user',[LoginController::class, 'store']);
 
 Auth::routes();
 

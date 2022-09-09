@@ -5,21 +5,11 @@
         <div class="col-md-6 ">
             <h2 class="my-5">Welcome Back!</h2>
 
-            <form class="form-row" method="POST" action="{{ url('login-user') }}">
-                @csrf
-                <div class="form-group col-sm-12">
-                    <input type="email" name="email" class="form-control br-12" placeholder="Email" required>
-                </div>
-                <div class="form-group col-sm-12">
-                    <input type="password" name="password" class="form-control br-12" placeholder="Password" required>
-                </div>
-                <button class=" btn-pink py-2" type="submit">Login</button>
-                <div class="form-group col-sm-12">
-                    <p class="my-3">Don't have an account? <a href="{{ url('register') }}">Register</a> </p>
-                    <p class="my-3">Forgot Pasword? <a href="#"> Reset Password?</a> </p>
-                </div>
-
-            </form>
+            <h4>Your Profile</h4>
+            <h5>Name : {{ auth()->user()->fullname }}</h5>
+            <h5>Phone : {{ auth()->user()->Phone }}</h5>
+            <h5>Email : {{ auth()->user()->email }}</h5>
+            <h5>Nationality : {{ auth()->user()->nationality }}</h5>
         </div>
         <div class=" register-images col-md-6 bg-gray ">
             <div class="flex-row my-5">

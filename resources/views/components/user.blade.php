@@ -6,6 +6,9 @@
             <h2 class="my-5">Welcome Back!</h2>
 
             <h4>Your Profile</h4>
+            @if (auth()->user()->profile)
+                <img src="{{ url('public/profile/' . auth()->user()->profile) }}" class="img-round w-30">
+            @endif
             <h5>Name : {{ auth()->user()->fullname }}</h5>
             <h5>Phone : {{ auth()->user()->phone }}</h5>
             <h5>Email : {{ auth()->user()->email }}</h5>

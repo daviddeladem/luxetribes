@@ -1,0 +1,90 @@
+ .icon {
+            color: black;
+            font-size: 14px;
+        }
+
+        .border {
+            border: 1px solid rgb(94, 94, 94);
+        }
+
+        .br {
+            border-radius: 6px;
+        }
+
+        .br-12 {
+            border-radius: 12px;
+        }
+
+        .f-13 {
+            font-size: 14px;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .mt-30 {
+            margin-top: 30%;
+        }
+
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .flex-between {
+            justify-content: space-between;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .img-round {
+            object-fit: cover;
+            width: 165px;
+            height: 165px;
+            box-shadow: 0 0 10px 0 rgba(255, 255, 255, .35);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .w-30 {
+            width: 80px;
+            height: 80px;
+        }
+
+        .flex-align-center {
+            align-content: center;
+        }
+
+        .btn-pink {
+            background: #fbb3c1;
+            border-color: #fbb3c1;
+            color: #1f2027;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-weight: 700;
+            width: 100% !important;
+        }
+
+        .bg-gray {
+            background-color: #f7f7fa;
+            border-radius: 24px 0 0 24px;
+        }
+
+        .position-absolute {
+            position: absolute !important;
+        }
+
+        .position-relative {
+            position: relative !important;
+        }
+
+        @media only screen and (max-width: 770px) {
+            .register-images {
+                display: none;
+            }
+        }

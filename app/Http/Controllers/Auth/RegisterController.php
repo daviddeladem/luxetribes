@@ -88,7 +88,10 @@ class RegisterController extends Controller
         {
             if($request->hasfile('profile'))
             {
-                   $path = Storage::putFile('Profile', $request->file('profile'));
+                   $file= $request->file('profile');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('public/profile'), $filename);
+            $data= $filename;
             }
             $user = User::create([
             'fullname' => $request->fullname,
@@ -98,7 +101,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'profile' => $path ?? NULL,
+            'profile' => $data ?? NULL,
             'email_verified_at' => Carbon::now()
 
         ]);

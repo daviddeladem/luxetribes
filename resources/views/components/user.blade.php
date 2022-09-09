@@ -7,7 +7,7 @@
 
             <h4>Your Profile</h4>
             <h5>Name : {{ auth()->user()->fullname }}</h5>
-            <h5>Phone : {{ auth()->user()->Phone }}</h5>
+            <h5>Phone : {{ auth()->user()->phone }}</h5>
             <h5>Email : {{ auth()->user()->email }}</h5>
             <h5>Nationality : {{ auth()->user()->nationality }}</h5>
         </div>

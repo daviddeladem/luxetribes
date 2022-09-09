@@ -328,7 +328,7 @@
                     @enderror
                 </div>
                 <div class="form-group col-sm-6">
-                    <input type="text" name="password"
+                    <input type="password" name="password"
                         class="@error('password') is-invalid @enderror form-control br-12" placeholder="Password"
                         required>
                     @error('password')

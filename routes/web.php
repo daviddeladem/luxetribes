@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('components.register');
 });
+Route::get('/logins', function () {
+    return view('components.login');
+});
+
+Route::post('register-user',[RegisterController::class, 'store']);
+Route::post('login-user',[LoginController::class, 'login']);
 
 Auth::routes();
 

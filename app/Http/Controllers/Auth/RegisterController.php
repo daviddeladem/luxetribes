@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+
+use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -47,13 +53,58 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    public function store(Request $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+
+        if($request->hasfile('profile'))
+            {
+                if(request('profile')->getSize() == false){
+                    Alert::error('Image Size Too large', 'Please upload image with size less than 2MB');
+                    return back();
+                }
+            }
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'date_of_birth' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required','min:8',
+               'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%@^&]).*$/'],[Rules\Password::defaults()],
+            'profile.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+            'bio' => 'string|max:555',
         ]);
+
+
+        if ($validator->fails())   //check all validations are fine, if not then redirect and show error messages
+        {
+
+            return back()->withInput()->withErrors($validator);
+
+        }
+        else
+        {
+            if($request->hasfile('profile'))
+            {
+                   $path = Storage::putFile('Profile', $request->file('profile'));
+            }
+            $user = User::create([
+            'fullname' => $request->fullname,
+            'bio' => $request->bio,
+            'date_of_birth' => $request->date_of_birth,
+            'nationality' => $request->country,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'profile' => $path ?? NULL,
+            'email_verified_at' => Carbon::now()
+
+        ]);
+
+       Alert::success('Registeration Successful');
+        return redirect()->route('login');
+        }
     }
 
     /**
@@ -62,12 +113,5 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+
 }

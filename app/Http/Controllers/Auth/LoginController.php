@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,5 +39,29 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+      'email'   => 'required|email',
+      'password'  => 'required|alphaNum|min:8'
+     ]);
+
+     $user_data = array(
+      'email'  => $request->get('email'),
+      'password' => $request->get('password')
+     );
+
+     if(Auth::attempt($user_data))
+     {
+        Alert::success('Your have successfully logged in','');
+      return back();
+     }
+     else
+     {
+        Alert::error('Your credentials donn\'t match our records','');
+      return back();
+     }
     }
 }

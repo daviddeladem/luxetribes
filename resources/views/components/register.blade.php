@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('content')
-    <div class="row my-5">
+    <form class="row my-5" action="{{ url('register-user') }}" method="POST" enctype="multipart/form-data">
+        @csrf
         <div class="col-md-6 ">
             <h2 class="my-5">Become a part of the <br> Luxe Tribes!</h2>
             <div class="upload-picture flex-row flex-align-center">
@@ -12,20 +13,29 @@
                     <h5>Add your photo (optional)</h5>
                     <span>Supported formats: jpg, jpeg, png.</span><br>
                     <label for="file"><i class="fas fa-upload"></i> click to upload</label>
-                    <input id="file" type="file" onchange="loadFile(event)" hidden />
+                    <input id="file" type="file" onchange="loadFile(event)" hidden name="profile" />
                 </div>
             </div>
             <hr>
             <div class="form-row">
                 <div class="form-group col-sm-6">
-                    <input type="text" name="fullname" class="form-control br-12" id="inputFirstName"
-                        placeholder="Full name">
+                    <input type="text" name="fullname" class="@error('fullname') is-invalid @enderror form-control br-12"
+                        placeholder="Full name" required>
+                    @error('fullname')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-sm-6">
-                    <input type="text" name="lastname" class="form-control br-12" id="reservationDate" placeholder="DOB">
+                    <input type="date" name="date_of_birth"
+                        class="@error('date_of_birth') is-invalid @enderror form-control br-12" id="reservationDate"
+                        placeholder="DOB" required>
+                    @error('date_of_birth')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-sm-6">
-                    <select class="form-select br-12" aria-label="Default select example" name="country">
+                    <select class="@error('country') is-invalid @enderror form-select br-12"
+                        aria-label="Default select example" name="country" required>
                         <option value="" disabled selected hidden>Select Nationality
                         </option>
                         <option value="AF">Afghanistan</option>
@@ -304,23 +314,33 @@
                     </select>
                 </div>
                 <div class="form-group col-sm-6">
-                    <input type="text" name="lastname" class="form-control br-12" id="inputLastName"
+                    <input type="text" name="email" class="@error('email') is-invalid @enderror form-control br-12"
                         placeholder="Email">
+                    @error('email')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-sm-6">
-                    <input class="form-control br-12" type="tel" id="phone" placeholder="e.g. +1 702 123 4567"
-                        value="+233 ">
+                    <input class="@error('phone') is-invalid @enderror form-control br-12" type="tel" id="phone"
+                        name="phone" placeholder="e.g. +1 702 123 4567" value="+233 " required>
+                    @error('phone')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-sm-6">
-                    <input type="text" name="lastname" class="form-control br-12" id="inputLastName"
-                        placeholder="Password">
+                    <input type="text" name="password"
+                        class="@error('password') is-invalid @enderror form-control br-12" placeholder="Password"
+                        required>
+                    @error('password')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-sm-12">
-                    <textarea name="" class="form-control br-12" id="" cols="30" rows="10"
+                    <textarea name="bio" class=" form-control br-12" id="" cols="30" rows="10"
                         placeholder="Tell us about you (optional)"></textarea>
                 </div>
-                <button class=" btn-pink py-2">Create my account</button>
-                <p class="my-3">Already have an account? <a href="#">Log in</a> </p>
+                <button class=" btn-pink py-2" type="submit">Create my account</button>
+                <p class="my-3">Already have an account? <a href="{{ url('login') }}">Log in</a> </p>
             </div>
         </div>
         <div class=" register-images col-md-6 bg-gray ">
@@ -339,5 +359,5 @@
             </div>
 
         </div>
-    </div>
+    </form>
 @endsection

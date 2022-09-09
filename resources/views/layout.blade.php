@@ -120,6 +120,7 @@
     <div class="container">
         @yield('content')
     </div>
+    @include('sweetalert::alert')
     <script src="js/intlTelInput.js"></script>
     <script>
         var loadFile = function(event) {

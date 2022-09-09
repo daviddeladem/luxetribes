@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -25,6 +26,12 @@ Route::get('/user', function () {
 
 Route::post('register-user',[RegisterController::class, 'store']);
 Route::post('login-user',[LoginController::class, 'store']);
+ Route::group(['middleware' => ['auth']], function() {
+        /**
+         * Logout Routes
+         */
+        Route::get('/logout', [LogoutController::class,'perform'])->name('logout.perform');
+    });
 
 Auth::routes();
 

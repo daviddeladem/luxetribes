@@ -54,12 +54,22 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <button class="border br px-2">
-                        <i class="far fa-user icon"></i>
-                        Login
-                    </button>
-                </a>
+                @guest
+                    <a class="nav-link" href="{{ url('login') }}">
+                        <button class="border br px-2">
+                            <i class="far fa-user icon"></i>
+                            Login
+                        </button>
+                    </a>
+                @endguest
+                @auth
+                    <a class="nav-link" href="{{ url('logout') }}">
+                        <button class="border br px-2">
+                            <i class="far fa-user icon"></i>
+                            Logout
+                        </button>
+                    </a>
+                @endauth
             </li>
         </ul>
     </div>
